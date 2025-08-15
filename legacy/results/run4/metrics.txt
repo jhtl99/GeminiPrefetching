@@ -1,0 +1,4 @@
+prompt_type,batch_size,output_size,avg_accuracy,avg_precision,avg_recall,avg_time
+minimal,150,50,0.608312,0.761495,0.708000,3.012442
+contextual,150,50,0.736706,0.853713,0.840000,5.637547
+expert,150,50,0.356327,0.506589,0.464000,6.081156

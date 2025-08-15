@@ -1,0 +1,2 @@
+prompt_type,batch_size,output_size,avg_accuracy,avg_precision,avg_recall,avg_time
+address,150,50,0.004082,0.008000,0.008000,8.857321
