@@ -9,6 +9,9 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 if not GOOGLE_API_KEY:
     raise ValueError("Please set GOOGLE_API_KEY environment variable")
 
+# Set quota project for billing
+QUOTA_PROJECT = os.getenv('GOOGLE_CLOUD_QUOTA_PROJECT', 'prefetching-466718')
+
 client = genai.Client(api_key=GOOGLE_API_KEY)
 
 
@@ -24,6 +27,7 @@ def generate(s):
       vertexai=True,
       project="561083428989",
       location="us-central1",
+      # quota_project_id=QUOTA_PROJECT,
   )
 
   model = None
