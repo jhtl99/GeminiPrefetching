@@ -378,9 +378,9 @@ However, a significant disparity emerges in inference time. Gemini 2.5 requires 
 % \label{fig:prompt-comparison}
 % \end{figure*}
 
-Figure~\ref{fig:prompt-comparison} reveals minimal performance differences between the original, contextual, and expert prompt settings, with all configurations achieving similar accuracy levels and completion times. However, the minimal prompt setting shows X\% worse performance but completes tasks Y\% faster than the more complex configurations.
+Table 3 compares the prompt strategies, and reveals slight performance differences between the original, contextual, and expert prompt settings across all four metrics, notably, the minimal prompt has a higher accuracy by 6-12\%, while also requiring less than half the time than all of the other prompt strategies. 
 
-This finding suggests that reducing prompt complexity allows the model to focus primarily on pattern detection without being distracted by extensive contextual information or domain-specific instructions. The simplified approach trades a small performance decrease for significant improvements in processing speed, indicating that overly complex prompts may introduce unnecessary cognitive overhead for the language model.
+This finding suggests that reducing prompt complexity allows the model to focus primarily on pattern detection without being distracted by extensive contextual information or domain-specific instructions. The simplified approach produces significant improvements in processing speed, indicating that overly complex prompts may introduce unnecessary cognitive overhead for the language model, and that the context provided is likely redundant and does not benefit in these small batch cases. These findings are consistent with other datasets as well. 
 
 \begin{table}[!htbp]
 \centering
@@ -437,7 +437,7 @@ ycsb\_50 & 1.6 & 3.1 & 3.0 & 5.34 \\
 \end{tabular}
 \end{table}
 
-Comparing cache sizes, programs generally show similar performance between 25-line and 50-line context windows, with one notable exception: the MCF trace. For MCF, the 25-line configuration achieves less than 0.5\% accuracy, while the 50-line version reaches 97.4\% accuracy
+Comparing cache sizes, programs generally show similar performance between 25-line and 50-line context windows, with one notable exception: the MCF trace. For MCF, the 25-line configuration achieves less than 0.5\% accuracy, while the 50-line version reaches 97.4\% accuracy.
 
 This performance variability suggests that certain program types are well-suited for LLM-based prefetching, likely those with sequential patterns that fit within 100-200 line scopes and can be effectively captured in one-shot prompts. Conversely, programs with irregular or highly complex memory access patterns may not benefit from this approach. The cache size analysis further demonstrates that the granularity of context provided to the model significantly influences the quality of generated predictions, with some programs requiring larger context windows to reveal their underlying patterns.
 
@@ -452,8 +452,8 @@ This performance variability suggests that certain program types are well-suited
 The prediction path visualization demonstrates the model's ability to align with and self-correct against ground truth patterns, even under complex and highly varying execution conditions. This adaptive behavior suggests that LLMs can capture nuanced program behaviors that might challenge traditional prefetching algorithms, though this capability is highly dependent on the specific program characteristics and context provided.
 
 
-\subsection{Overall Performance Comparison}
-Figure~\ref{fig:performance-overview} presents the overall performance comparison across all test configurations, showing hit rate, precision, recall, and accuracy metrics.
+% \subsection{Overall Performance Comparison}
+% Figure~\ref{fig:performance-overview} presents the overall performance comparison across all test configurations, showing hit rate, precision, recall, and accuracy metrics.
 
 
 
@@ -637,7 +637,7 @@ The timing analysis reveals that completion time is governed by output size rath
 
 \textbf{Fine tuning}: While fine tuning was intended to be an important portion to this project, the tuning process was too costly (about $\$30$ per trained model) and the results performed poorer than the one-shot prompts, suggesting that some part of the methodology is not properly implemented.
 
-\textbf{Inference Latency:} Current inference times (650-2000ms) are too high for real-time prefetching applications. Significant optimization would be required for practical deployment.
+\textbf{Inference Latency:} Current inference times (130ms at the fastest) are too high for real-time prefetching applications when compared to normal . Significant optimization would be required for practical deployment.
 
 \textbf{Parameter-Dependent Reliability:} Response reliability is highly sensitive to configuration parameters, with success rates varying dramatically from 0.05-100\% depending on context window size, prompt complexity, and dataset characteristics. This parameter sensitivity makes robust deployment challenging and requires extensive tuning for each application scenario.
 
@@ -650,22 +650,19 @@ The timing analysis reveals that completion time is governed by output size rath
 
 
 \subsection{Model Optimization and Fine-tuning}
-Investigating specialized fine-tuning approaches specifically designed for memory access prediction could potentially improve both speed and accuracy. Future work should explore whether domain-specific training can reduce the model size requirements while maintaining prediction quality, potentially addressing both latency and cost concerns.
+Investigating fine-tuning approaches designed for memory access prediction could potentially improve both speed and accuracy. Future work should explore whether domain-specific training can reduce the model size requirements while maintaining prediction quality, addressing both latency and cost concerns.
 
 \subsection{Advanced Prompt Engineering}
-Our results demonstrate that prompt strategy significantly impacts both performance and inference time. Future research should systematically explore more sophisticated prompt engineering techniques, including few-shot learning approaches, chain-of-thought prompting, and adaptive prompt selection based on program characteristics.
+Our results demonstrate that prompt strategy significantly impacts both performance and inference time. Future research should systematically explore more sophisticated prompt engineering techniques, including few-shot learning approaches, chain-of-thought prompting, and adaptive prompt selection based on program characteristics. The minimal prompt performed best in these small batch scenarios, but this conclusion is not generalizable to every scenario.
 
 \subsection{Model Diversity and Scaling}
-Comprehensive evaluation across different Gemini versions and alternative LLMs (Claude, GPT-4, specialized smaller models) could reveal optimal model architectures for prefetching tasks. Additionally, investigating how input-output dimensions scale with different model capabilities could inform deployment strategies.
-\\
-\\
-\\
-\\
+Comprehensive evaluation across different Gemini versions and alternative LLMs (Claude, GPT-4, specialized smaller models) could reveal optimal model architectures for prefetching tasks. Additionally, investigating how input-output dimensions scale with different model capabilities could improve deployment strategies.
+
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-This paper presents an evaluation of large language models for memory prefetching, demonstrating both the remarkable potential and significant limitations of applying LLMs to low-level system optimization tasks.
+This paper presents an evaluation of large language models for memory prefetching, demonstrating both the remarkable potential and significant limitations of applying LLMs to low-level system optimization tasks. There is certainly more work to be done in this area, and it is likely that machine learning integrates into mainstream prefetching systems in the near future.
 
 \textbf{Performance Potential:} Our results reveal that under optimal conditions, Gemini can achieve perfect prediction accuracy, correctly predicting 40/40 memory addresses in a single batch. However, this performance is highly variable, with some configurations yielding less than 0.5\% accuracy, highlighting the sensitivity of LLM-based approaches to both dataset characteristics and configuration parameters.
 
@@ -677,7 +674,7 @@ This paper presents an evaluation of large language models for memory prefetchin
 
 
 \begin{acks}
-We thank Systopia for providing the datasets that made this research possible. We are grateful to Shaurya Patel and Sasha Federova for providing the opportunity to work on this project and for their guidance throughout the research process. We also acknowledge the computational resources provided by our institution's high-performance computing facility and Google's Gemini API access program.
+I thank Systopia for providing the datasets that made this research possible. I am grateful to Shaurya Patel and Sasha Federova for providing the opportunity to work on this project and for their guidance throughout the research process. I also acknowledge the computational resources provided by institution's high-performance computing facility and Google's Gemini API.
 \end{acks}
 
 %%
